@@ -79,7 +79,7 @@ public class Main {
         
         //impresión de toda la información del ciclo
         System.out.println(daw.imprimirTodo());
-
+  /*
         //linea separadora
         System.out.println("\t+" + hy(31,"+=") + "+");
         
@@ -87,9 +87,9 @@ public class Main {
         System.out.printf("\tPorcentaje de aprobados en todo el ciclo %-2.1f%% \n\n",daw.porcentajeAprobadosCiclo());
        
         //Persona con nota más alta y más baja
-        System.out.println("\tPersona con Nota max: "+daw.personaNotaMaxima().getNombre());
+      System.out.println("\tPersona con Nota max: "+daw.personaNotaMaxima().getNombre());
         System.out.println("\tPersona con Nota min: "+daw.personaNotaMinima().getNombre());
         System.out.println("\n\n");
-    }
+ */   }
 
 }

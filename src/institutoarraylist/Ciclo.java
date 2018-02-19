@@ -1,5 +1,8 @@
 package institutoarraylist;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 /**
@@ -58,10 +61,10 @@ public class Ciclo {
         }
         return max;
     }
-    
+
     //Alumno con nota mínima de todo el ciclo
     public Alumno personaNotaMinima() {
-        
+
         Alumno min = this.nombreAlumno.get(0);
         for (Alumno obj : nombreAlumno) {
             if (obj.notaMedia() < min.notaMedia()) {
@@ -88,15 +91,80 @@ public class Ciclo {
     }
 
     //informacion de todo el ciclo
-    public String imprimirTodo(){
-        String texto="";
-        for (Alumno pupil: nombreAlumno){
-            texto+=pupil.toString();
+    public String imprimirTodo() {
+        File dir = new File(this.nombreCiclo);
+
+        // if the directory does not exist, create it
+        if (dir.exists()) {
+            try {
+                String[] entries = dir.list();
+                for (String s : entries) {
+                    File currentFile = new File(dir.getPath(), s);
+                    System.out.println(currentFile.getName());
+                    currentFile.delete();
+                }
+            } catch (SecurityException se) {
+                System.out.println(se.getMessage());
+            }
+        }else{
+            try {
+                dir.mkdir();
+            } catch (SecurityException se) {
+                System.out.println(se.getMessage());
+            }
         }
-        return texto;
+
+        String textoFichero = "", textoPantalla = "";
+        
+        
+        for (Alumno pupil : nombreAlumno) {
+            File fileName = new File(dir.getName(), pupil.getNombre() + ".txt");
+            textoPantalla += pupil.toString();
+            textoFichero = pupil.toString();
+            WriteFile(fileName, textoFichero);
+        }
+        return textoPantalla;
+
     }
-    
+
     public String toString() {
         return "\tCiclo: " + this.nombreCiclo;
     }
+
+    public static void WriteFile(File fileName, String texto) {
+        //This method reads from one file and then writes its
+        //content into another one without wiping its original content
+
+        //necesario para crear un objeto del mismo tipo
+        //File fileWritten = null;
+        FileWriter fileToWrite = null;
+        BufferedWriter bufferWillWrite = null;
+
+        try {
+            //creacion de estructura de escritura
+            //fileWritten = new File(fileName);
+            fileToWrite = new FileWriter(fileName); //true: permite agregar info sin borrar el archivo
+
+            bufferWillWrite = new BufferedWriter(fileToWrite);
+            try {
+                bufferWillWrite.write(texto + "\n");
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            } finally {
+                try {
+                    if (fileToWrite != null) {
+                        bufferWillWrite.close();
+                    }
+                } catch (Exception er) {
+                    System.out.println(er.getMessage());
+                }
+            }
+        } catch (Exception err) {
+            System.out.println(err.getMessage());
+        } finally {
+
+        }
+    }
+
 }
