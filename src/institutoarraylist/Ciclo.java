@@ -92,21 +92,21 @@ public class Ciclo {
 
     //informacion de todo el ciclo
     public String imprimirTodo() {
+
         File dir = new File(this.nombreCiclo);
 
-        // if the directory does not exist, create it
-        if (dir.exists()) {
+        // Directory erase
+        if (dir.exists() && dir.isDirectory()) {
             try {
                 String[] entries = dir.list();
                 for (String s : entries) {
                     File currentFile = new File(dir.getPath(), s);
-                    System.out.println(currentFile.getName());
                     currentFile.delete();
                 }
             } catch (SecurityException se) {
                 System.out.println(se.getMessage());
             }
-        }else{
+        } else {
             try {
                 dir.mkdir();
             } catch (SecurityException se) {
@@ -116,9 +116,11 @@ public class Ciclo {
 
         String textoFichero = "", textoPantalla = "";
         
-        
+
         for (Alumno pupil : nombreAlumno) {
-            File fileName = new File(dir.getName(), pupil.getNombre() + ".txt");
+            //
+            String pupilName= pupil.getNombre().replace(' ','_') + ".txt";
+            File fileName = new File(dir.getName(), pupilName);
             textoPantalla += pupil.toString();
             textoFichero = pupil.toString();
             WriteFile(fileName, textoFichero);
@@ -135,8 +137,7 @@ public class Ciclo {
         //This method reads from one file and then writes its
         //content into another one without wiping its original content
 
-        //necesario para crear un objeto del mismo tipo
-        //File fileWritten = null;
+        //necesario para crear un objeto del mismo tipo       
         FileWriter fileToWrite = null;
         BufferedWriter bufferWillWrite = null;
 
@@ -154,7 +155,7 @@ public class Ciclo {
             } finally {
                 try {
                     if (fileToWrite != null) {
-                        bufferWillWrite.close();
+                        fileToWrite.close();
                     }
                 } catch (Exception er) {
                     System.out.println(er.getMessage());
@@ -162,9 +163,7 @@ public class Ciclo {
             }
         } catch (Exception err) {
             System.out.println(err.getMessage());
-        } finally {
-
-        }
+        } 
     }
 
 }
